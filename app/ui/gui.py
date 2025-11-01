@@ -18,6 +18,7 @@ from PySide6.QtWidgets import (
     QMainWindow,
     QVBoxLayout,
     QHBoxLayout,
+    QGridLayout,
     QWidget,
     QLabel,
     QPushButton,
@@ -36,15 +37,18 @@ class GuiApp:
             super().__init__()
 
             self.setWindowTitle("PyPass")
+            # Resolusi desktop
             self.setMinimumSize(600, 400)
+            # Resolusi mobile
+            # self.setMinimumSize(720, 1280)
 
             top_bar = GuiApp.TopBar()
-            # content = GuiApp.Content()
+            content = GuiApp.Content()
             bottom_bar = GuiApp.BottomBar()
 
             layout = QVBoxLayout()
             layout.addWidget(top_bar)
-            # layout.addWidget(content)
+            layout.addWidget(content)
             layout.addWidget(bottom_bar)
 
             container = QWidget()
@@ -69,15 +73,43 @@ class GuiApp:
             search.setPlaceholderText("Search")
             search.setFixedSize(300, 40)
 
+            export_import = QPushButton("Export/Import")
+
             layout = QHBoxLayout()
             layout.addWidget(image)
             layout.addWidget(search)
+            layout.addWidget(export_import)
 
             self.setLayout(layout)
 
     class Content(QWidget):
         def __init__(self):
-            pass
+            super().__init__()
+
+            button_add_password = QPushButton("Add password")
+
+            # contoh
+            button_github = QPushButton("Github")
+            button_google = QPushButton("Google")
+            button_spotify = QPushButton("Spotify")
+            button_steam = QPushButton("Steam")
+            button_instagram = QPushButton("Instagram")
+            button_discord = QPushButton("Discord")
+
+            layout_vbox = QVBoxLayout()
+            layout_vbox.addWidget(button_add_password)
+
+            layout_grid = QGridLayout()
+            layout_grid.addWidget(button_github, 0, 0)
+            layout_grid.addWidget(button_google, 0, 1)
+            layout_grid.addWidget(button_spotify, 0, 2)
+            layout_grid.addWidget(button_steam, 1, 0)
+            layout_grid.addWidget(button_instagram, 1, 1)
+            layout_grid.addWidget(button_discord, 1, 2)
+
+            layout_vbox.addLayout(layout_grid)
+
+            self.setLayout(layout_vbox)
 
     class BottomBar(QWidget):
         def __init__(self):
@@ -94,6 +126,7 @@ class GuiApp:
             button_accounts = QPushButton()
             button_accounts.setIcon(image_button_path)
             button_accounts.setIconSize(QSize(24, 24))
+            button_accounts.setFixedSize(72, 36)
 
             label_accounts = QLabel("Accounts")
             label_accounts.setAlignment(Qt.AlignHCenter)
@@ -101,6 +134,7 @@ class GuiApp:
             button_settings = QPushButton()
             button_settings.setIcon(image_settings_path)
             button_settings.setIconSize(QSize(24, 24))
+            button_settings.setFixedSize(72, 36)
 
             label_settings = QLabel("Settings")
             label_settings.setAlignment(Qt.AlignHCenter)
@@ -118,7 +152,6 @@ class GuiApp:
             layout = QHBoxLayout()
             layout.addLayout(layout_button_accounts)
             layout.addLayout(layout_button_settings)
-            layout.setSpacing(40)
             layout.setAlignment(Qt.AlignCenter)
 
             self.setLayout(layout)
