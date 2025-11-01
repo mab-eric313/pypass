@@ -57,6 +57,7 @@ class GuiApp:
 
             container = QWidget()
             container.setLayout(layout)
+
             self.setCentralWidget(container)
 
     class MainStack(QWidget):
@@ -72,99 +73,11 @@ class GuiApp:
 
             layout = QVBoxLayout()
             layout.addLayout(self.stack)
+
             self.setLayout(layout)
 
         def set_tab(self, index: int):
             self.stack.setCurrentIndex(index)
-
-    class AccountsTab(QWidget):
-        def __init__(self):
-            super().__init__()
-
-            layout = QVBoxLayout()
-            layout.addWidget(GuiApp.TopBar())
-            layout.addWidget(GuiApp.Content())
-            self.setLayout(layout)
-
-    class SettingsTab(QWidget):
-        def __init__(self):
-            super().__init__()
-
-            theme = QLabel("Theme:")
-            system_default = QRadioButton("System default")
-            light = QRadioButton("Light")
-            dark = QRadioButton("Dark")
-            export_import = QPushButton("Export/Import")
-
-            layout_vbox = QVBoxLayout()
-            layout_theme = QHBoxLayout()
-
-            layout_theme.addWidget(theme)
-            layout_theme.addWidget(system_default)
-            layout_theme.addWidget(light)
-            layout_theme.addWidget(dark)
-
-            layout_vbox.addWidget(export_import)
-
-            layout_vbox.addLayout(layout_theme)
-
-            self.setLayout(layout_vbox)
-
-    class TopBar(QWidget):
-        def __init__(self):
-            super().__init__()
-
-            image_path = QPixmap(str(BASE_PATH / "assets" / "padlock.png"))
-
-            image = QLabel()
-            image.setPixmap(image_path)
-            image.setScaledContents(True)
-            image.setFixedSize(30, 30)
-
-            search = QLineEdit()
-            search.setPlaceholderText("Search")
-            search.setFixedHeight(30)
-
-            layout = QHBoxLayout()
-            layout.addWidget(image)
-            layout.addWidget(search)
-            layout.setSpacing(15)
-
-            self.setLayout(layout)
-
-    class Content(QWidget):
-        def __init__(self):
-            super().__init__()
-
-            width = QSizePolicy.Expanding
-            height = QSizePolicy.Fixed
-
-            button_add_password = QPushButton("Add password")
-            button_add_password.setSizePolicy(width, height)
-            button_add_password.setFixedHeight(60)
-
-            # contoh
-            button_github = QPushButton("Github")
-            button_google = QPushButton("Google")
-            button_spotify = QPushButton("Spotify")
-            button_steam = QPushButton("Steam")
-            button_instagram = QPushButton("Instagram")
-            button_discord = QPushButton("Discord")
-
-            layout_vbox = QVBoxLayout()
-            layout_vbox.addWidget(button_add_password)
-
-            layout_grid = QGridLayout()
-            layout_grid.addWidget(button_github, 0, 0)
-            layout_grid.addWidget(button_google, 0, 1)
-            layout_grid.addWidget(button_spotify, 0, 2)
-            layout_grid.addWidget(button_steam, 1, 0)
-            layout_grid.addWidget(button_instagram, 1, 1)
-            layout_grid.addWidget(button_discord, 1, 2)
-
-            layout_vbox.addLayout(layout_grid)
-
-            self.setLayout(layout_vbox)
 
     class BottomBar(QWidget):
         switch_tab = Signal(int)
@@ -201,10 +114,108 @@ class GuiApp:
             layout.addLayout(layout_button_accounts)
             layout.addLayout(layout_button_settings)
             layout.setAlignment(Qt.AlignCenter)
+
             self.setLayout(layout)
 
             button_accounts.clicked.connect(lambda: self.switch_tab.emit(0))
             button_settings.clicked.connect(lambda: self.switch_tab.emit(1))
+
+    class TopBar(QWidget):
+        def __init__(self):
+            super().__init__()
+
+            image_path = QPixmap(str(BASE_PATH / "assets" / "padlock.png"))
+
+            image = QLabel()
+            image.setPixmap(image_path)
+            image.setScaledContents(True)
+            image.setFixedSize(30, 30)
+
+            search = QLineEdit()
+            search.setPlaceholderText("Search")
+            search.setFixedHeight(30)
+
+            layout = QHBoxLayout()
+            layout.addWidget(image)
+            layout.addWidget(search)
+            layout.setSpacing(15)
+
+            self.setLayout(layout)
+
+    class AccountsTab(QWidget):
+        def __init__(self):
+            super().__init__()
+
+            layout = QVBoxLayout()
+            layout.addWidget(GuiApp.TopBar())
+            layout.addWidget(GuiApp.AccountsContent())
+
+            self.setLayout(layout)
+
+    class AccountsContent(QWidget):
+        def __init__(self):
+            super().__init__()
+
+            width = QSizePolicy.Expanding
+            height = QSizePolicy.Fixed
+
+            button_add_password = QPushButton("Add password")
+            button_add_password.setSizePolicy(width, height)
+            button_add_password.setFixedHeight(60)
+
+            # contoh
+            button_github = QPushButton("Github")
+            button_google = QPushButton("Google")
+            button_spotify = QPushButton("Spotify")
+            button_steam = QPushButton("Steam")
+            button_instagram = QPushButton("Instagram")
+            button_discord = QPushButton("Discord")
+
+            layout_vbox = QVBoxLayout()
+            layout_vbox.addWidget(button_add_password)
+
+            layout_grid = QGridLayout()
+            layout_grid.addWidget(button_github, 0, 0)
+            layout_grid.addWidget(button_google, 0, 1)
+            layout_grid.addWidget(button_spotify, 0, 2)
+            layout_grid.addWidget(button_steam, 1, 0)
+            layout_grid.addWidget(button_instagram, 1, 1)
+            layout_grid.addWidget(button_discord, 1, 2)
+
+            layout_vbox.addLayout(layout_grid)
+            self.setLayout(layout_vbox)
+
+    class SettingsTab(QWidget):
+        def __init__(self):
+            super().__init__()
+
+            layout = QVBoxLayout()
+            layout.addWidget(GuiApp.SettingsContent())
+
+            self.setLayout(layout)
+
+    class SettingsContent(QWidget):
+        def __init__(self):
+            super().__init__()
+
+            theme = QLabel("Theme:")
+            system_default = QRadioButton("System default")
+            light = QRadioButton("Light")
+            dark = QRadioButton("Dark")
+            export_import = QPushButton("Export/Import")
+
+            layout_vbox = QVBoxLayout()
+            layout_theme = QHBoxLayout()
+
+            layout_theme.addWidget(theme)
+            layout_theme.addWidget(system_default)
+            layout_theme.addWidget(light)
+            layout_theme.addWidget(dark)
+
+            layout_vbox.addWidget(export_import)
+            layout_vbox.addLayout(layout_theme)
+
+            self.setLayout(layout_vbox)
 
     def run(self):
         app = QApplication([])
