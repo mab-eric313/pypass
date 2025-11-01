@@ -19,9 +19,11 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QHBoxLayout,
     QGridLayout,
+    QStackedLayout,
     QWidget,
     QLabel,
     QPushButton,
+    QRadioButton,
     QLineEdit,
 )
 
@@ -42,19 +44,72 @@ class GuiApp:
             # Resolusi mobile
             # self.setMinimumSize(720, 1280)
 
+            layout_vbox = QVBoxLayout()
+            layout_content_hbox = QHBoxLayout()
+            self.layout_stack = QStackedLayout()
+
+            layout_vbox.addLayout(self.layout_stack)
+            layout_vbox.addLayout(layout_content_hbox)
+
+            button = QPushButton("Accounts")
+            button.pressed.connect(self.accounts_tab)
+            layout_content_hbox.addWidget(button)
+            self.layout_stack.addWidget(GuiApp.AccountsTab())
+
+            button = QPushButton("Settings")
+            button.pressed.connect(self.settings_tab)
+            layout_content_hbox.addWidget(button)
+            self.layout_stack.addWidget(GuiApp.SettingsTab())
+
+            container = QWidget()
+            container.setLayout(layout_vbox)
+
+            self.setCentralWidget(container)
+
+        def accounts_tab(self):
+            self.layout_stack.setCurrentIndex(0)
+
+        def settings_tab(self):
+            self.layout_stack.setCurrentIndex(1)
+
+    class AccountsTab(QWidget):
+        def __init__(self):
+            super().__init__()
+
             top_bar = GuiApp.TopBar()
             content = GuiApp.Content()
-            bottom_bar = GuiApp.BottomBar()
+            # bottom_bar = GuiApp.BottomBar()
 
             layout = QVBoxLayout()
             layout.addWidget(top_bar)
             layout.addWidget(content)
-            layout.addWidget(bottom_bar)
+            # layout.addWidget(bottom_bar)
 
-            container = QWidget()
-            container.setLayout(layout)
+            self.setLayout(layout)
 
-            self.setCentralWidget(container)
+    class SettingsTab(QWidget):
+        def __init__(self):
+            super().__init__()
+
+            # bottom_bar = GuiApp.BottomBar()
+
+            theme = QLabel("Theme:")
+            system_default = QRadioButton("System default")
+            light = QRadioButton("Light")
+            dark = QRadioButton("Dark")
+
+            layout_vbox = QVBoxLayout()
+            layout_theme = QHBoxLayout()
+
+            layout_theme.addWidget(theme)
+            layout_theme.addWidget(system_default)
+            layout_theme.addWidget(light)
+            layout_theme.addWidget(dark)
+
+            layout_vbox.addLayout(layout_theme)
+            # layout_vbox.addWidget(bottom_bar)
+
+            self.setLayout(layout_vbox)
 
     class TopBar(QWidget):
         def __init__(self):
