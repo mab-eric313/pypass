@@ -26,7 +26,7 @@
             1. `(crypto.py)` Membangun dan memastikan fondasi enkripsi dan dekripsi berjalan dengan baik
             2. `(database.py)` Membangun kerangka database `insert`, `get`, `list`, dan `delete` entri
         - GUI: `(gui.py)` Membangun kerangka tampilan awal
-    - **Akhir November** Versi `0.1.0-devel`
+    - **Akhir November** Versi `0.1-devel`
         - CLI: 
             1. `(core.py)` Membuat class `PasswordManager` yang menggabungkan `crypto.py` dan `database.py`
             2. `(cli.py)` Menambahkan argparse untuk init vault, unlock, add, get, list, dan delete
@@ -35,7 +35,7 @@
     - **Pertengahan Desember** 
         - CLI: Menambahkan opsi `--gen-pass` untuk men-generate password
         - GUI: Menambahkan tombol `Add`, `Edit`, `Delete` dan kotak teks akun dan kata sandi
-    - **Akhir Desember** Versi `0.2.0-devel`
+    - **Akhir Desember** Versi `0.2-devel`
         - CLI: Tambahkan backup/restore
         - GUI: 
             1. Di `Add password` tambahkan `Site`, `Username`, `Password`, `Note`
@@ -44,7 +44,7 @@
         - GUI: 
             1. Tambahkan clipboard handling - auto-clear setelah beberapa waktu
             2. Tambahkan tombol backup/restore 
-    - **Akhir Januari** Versi `1.0.0-beta`
+    - **Akhir Januari** Versi `1.0-beta`
         - Jaga stabilitas, perbaiki bug dan error jika ada
         - GUI: Poles UI
 
