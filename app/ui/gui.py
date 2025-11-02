@@ -45,6 +45,7 @@ class GuiApp:
             self.setMinimumSize(600, 400)
             # Resolusi mobile
             # self.setMinimumSize(720, 1280)
+            # self.setMinimumSize(360, 640)
 
             self.main_stack = GuiApp.MainStack()
             self.bottom_bar = GuiApp.BottomBar()
@@ -71,10 +72,7 @@ class GuiApp:
             self.stack.addWidget(self.accounts_tab)
             self.stack.addWidget(self.settings_tab)
 
-            layout = QVBoxLayout()
-            layout.addLayout(self.stack)
-
-            self.setLayout(layout)
+            self.setLayout(self.stack)
 
         def set_tab(self, index: int):
             self.stack.setCurrentIndex(index)
@@ -142,17 +140,61 @@ class GuiApp:
 
             self.setLayout(layout)
 
+    class AccountsAddStack(QWidget):
+        switch_to_main = Signal()
+
+        def __init__(self):
+            super().__init__()
+
+            back = QPushButton("Back to Accounts")
+            back.clicked.connect(self.switch_to_main.emit)
+
+            layout = QVBoxLayout()
+            layout.addWidget(back)
+
+            self.setLayout(layout)
+
+        def set_tab(self, index: int):
+            self.stack.setCurrentIndex(index)
+
+    class AccountsAddContent(QWidget):
+        def __init__(self):
+            super().__init__()
+
+            back = QPushButton("This button from AccountsAddContent")
+
+            layout = QVBoxLayout()
+            layout.addWidget(back)
+
+            self.setLayout(layout)
+
+    class AccountsEditStack(QWidget):
+        pass
+
     class AccountsTab(QWidget):
         def __init__(self):
             super().__init__()
 
-            layout = QVBoxLayout()
-            layout.addWidget(GuiApp.TopBar())
-            layout.addWidget(GuiApp.AccountsContent())
+            self.stack = QStackedLayout()
 
-            self.setLayout(layout)
+            self.accounts_content = GuiApp.AccountsContent()
+            self.accounts_content.switch_to_add.connect(
+                lambda: self.stack.setCurrentIndex(1)
+            )
+
+            self.accounts_add_stack = GuiApp.AccountsAddStack()
+            self.accounts_add_stack.switch_to_main.connect(
+                lambda: self.stack.setCurrentIndex(0)
+            )
+
+            self.stack.addWidget(self.accounts_content)
+            self.stack.addWidget(self.accounts_add_stack)
+
+            self.setLayout(self.stack)
 
     class AccountsContent(QWidget):
+        switch_to_add = Signal()
+
         def __init__(self):
             super().__init__()
 
@@ -163,6 +205,8 @@ class GuiApp:
             button_add_password.setSizePolicy(width, height)
             button_add_password.setFixedHeight(60)
 
+            button_add_password.clicked.connect(self.switch_to_add.emit)
+
             # contoh
             button_github = QPushButton("Github")
             button_google = QPushButton("Google")
@@ -172,6 +216,7 @@ class GuiApp:
             button_discord = QPushButton("Discord")
 
             layout_vbox = QVBoxLayout()
+            layout_vbox.addWidget(GuiApp.TopBar())
             layout_vbox.addWidget(button_add_password)
 
             layout_grid = QGridLayout()
