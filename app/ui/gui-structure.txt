@@ -1,25 +1,15 @@
-- MainWindow (MainStack, BottomBar)
-- MainStack 
-- BottomBar
-- TopBar
-- AccountsTab (TopBar, AccountsContent)
-- AccountsContent 
---- AccountsAddStack
---- AccountsAddContent
---- AccountsEditStack
-- SettingsTab (SettingsContent)
-- SettingsContent
+GuiApp
+  |——MainWindow             (QVBoxLayout: MainStack, BottomBar) 
+  |——TabStack               (QStackedLayout: AccountsTab, SettingsTab)
+  |——TopBar                 
+  |——AccountsTab            (QStackedLayout: AccountsContent, AccountsAddStack)
+  |——AccountsContent
+  |——AccountsAddContent 
+  |—--- AccountsEditContent
+  |——SettingsTab            (SettingsContent)
+  |——SettingsContent
+  |——BottomBar
 
 window:
 1. MainWindow { (AccountsTab - AccountsContent), (SettingsTab - SettingsContent) }
 2. BottomBar { button_accounts, button_settings }
-
-# Menambahkan: AccountsAddStack, AccountsAddContent, AccountsEditStack
-Opsi 1:
-    - MainWindow -> MainStack
-    - MainStack -> TabStack
-
-    0. MainWindow { MainStack }
-    1. MainStack { TabStack, BottomBar, AccountsAddContent }
-    2. TabStack { (AccountsTab - AccountsContent), (SettingsTab - SettingsContent) }
-    3. BottomBar { button_accounts, button_settings }
